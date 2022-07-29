@@ -12,18 +12,20 @@ const camera = new THREE.PerspectiveCamera(
 camera.position.set(0, 0, 10);
 scene.add(camera);
 
-for (let i = 0; i < 50; i++) {
-  const cubeGeometry = new THREE.BufferGeometry();
-  const vertices = new Float32Array(9);
-  for (let j = 0; j < 9; j++) {
-    vertices[j] = Math.random() * 10 - 7;
-  }
-  const color = new THREE.Color(Math.random(), Math.random(), Math.random(), 1);
-  cubeGeometry.setAttribute("position", new THREE.BufferAttribute(vertices, 3));
-  const cubeMeterial = new THREE.MeshBasicMaterial({ color: color });
-  const mesh = new THREE.Mesh(cubeGeometry, cubeMeterial);
-  scene.add(mesh);
-}
+const cubeGeometry = new THREE.BufferGeometry();
+//prettier-ignore
+const vertices = new Float32Array([
+    -1, -1, 1,
+    1, -1,  1,
+    1,  1,  1, 
+    1,  1,  1, 
+    -1, 1, 1,
+    -1, -1, 1
+]);
+cubeGeometry.setAttribute("position", new THREE.BufferAttribute(vertices, 3));
+const cubeMeterial = new THREE.MeshBasicMaterial({ color: 0xffff33 });
+const mesh = new THREE.Mesh(cubeGeometry, cubeMeterial);
+scene.add(mesh);
 
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
