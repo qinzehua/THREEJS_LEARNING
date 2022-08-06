@@ -22,7 +22,9 @@ scene.add(camera);
  导入纹理
 */
 const textureLoader = new THREE.TextureLoader();
-const doorColorTexture = textureLoader.load("./textures/door/color.jpg");
+const texture = textureLoader.load("./textures/minecraft.png");
+texture.minFilter = THREE.LinearFilter;
+texture.magFilter = THREE.LinearFilter;
 
 /*
   生成矩阵
@@ -33,7 +35,7 @@ const cubeGeometry = new THREE.BoxBufferGeometry(3, 3, 3);
   生成材质
 */
 const basicMeterial = new THREE.MeshBasicMaterial({
-  map: doorColorTexture,
+  map: texture,
 });
 
 /*
