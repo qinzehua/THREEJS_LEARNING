@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
-// 目标：AO环境遮挡
+// 目标：透明
 
 /*
   场景
@@ -12,10 +12,10 @@ const scene = new THREE.Scene();
   相机
 */
 const camera = new THREE.PerspectiveCamera(
-  75, // 摄像机锥视体张开角度
-  window.innerWidth / window.innerHeight, // 摄像机锥视体宽高比
-  0.1, // 进平面
-  1000 // 远平面
+  75,
+  window.innerWidth / window.innerHeight,
+  0.1,
+  1000
 );
 camera.position.set(10, 10, 10);
 scene.add(camera);
@@ -25,20 +25,16 @@ scene.add(camera);
 */
 const textureLoader = new THREE.TextureLoader();
 const texture = textureLoader.load("./textures/door/color.jpg");
-const alphaTexture = textureLoader.load("./textures/door/alpha.jpg"); // alpha材质
-const doorAoTexture = textureLoader.load(
-  "./textures/door/ambientOcclusion.jpg"
-);
+const alphaTexture = textureLoader.load("./textures/door/alpha.jpg");
 
 /*
   生成材质
 */
 const basicMeterial = new THREE.MeshBasicMaterial({
-  map: texture, // 基础材质
-  side: THREE.DoubleSide, //允许正面和方面同时绘制材质
-  alphaMap: alphaTexture, // alpha 遮挡材质
-  transparent: true, // 为true时，上面的设置才生效
-  aoMap: doorAoTexture, // 该纹理的红色通道用作环境遮挡贴图。默认值为null。aoMap需要第二组UV。
+  map: texture,
+  alphaMap: alphaTexture,
+  transparent: true,
+  side: THREE.DoubleSide,
 });
 
 /*
@@ -47,24 +43,16 @@ const basicMeterial = new THREE.MeshBasicMaterial({
 const cubeGeometry = new THREE.BoxBufferGeometry(3, 3, 3);
 const cube = new THREE.Mesh(cubeGeometry, basicMeterial);
 scene.add(cube);
-// 设置环境遮挡贴图
-cubeGeometry.setAttribute(
-  "uv2",
-  new THREE.BufferAttribute(cubeGeometry.attributes.uv.array, 2)
-);
 
 /*
  创建一个平面
 */
-const planeGeometry = new THREE.PlaneBufferGeometry(3, 3);
-const plane = new THREE.Mesh(planeGeometry, basicMeterial);
+const plane = new THREE.Mesh(
+  new THREE.PlaneBufferGeometry(3, 3),
+  basicMeterial
+);
 plane.position.x = 5;
 scene.add(plane);
-// 设置环境遮挡贴图
-planeGeometry.setAttribute(
-  "uv2",
-  new THREE.BufferAttribute(planeGeometry.attributes.uv.array, 2)
-);
 
 /*
   渲染器
