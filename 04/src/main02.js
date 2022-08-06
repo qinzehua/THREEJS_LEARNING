@@ -1,8 +1,6 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
-// 目标：透明
-
 /*
   场景
 */
@@ -24,35 +22,31 @@ scene.add(camera);
  导入纹理
 */
 const textureLoader = new THREE.TextureLoader();
-const texture = textureLoader.load("./textures/door/color.jpg");
-const alphaTexture = textureLoader.load("./textures/door/alpha.jpg");
+const texture = textureLoader.load("./textures/minecraft.png");
+texture.minFilter = THREE.LinearFilter;
+texture.magFilter = THREE.LinearFilter;
+
+/*
+  生成矩阵
+*/
+const cubeGeometry = new THREE.BoxBufferGeometry(3, 3, 3);
 
 /*
   生成材质
 */
 const basicMeterial = new THREE.MeshBasicMaterial({
   map: texture,
-  alphaMap: alphaTexture,
-  transparent: true,
-  side: THREE.DoubleSide,
 });
 
 /*
-  生成矩阵
+  贴图
 */
-const cubeGeometry = new THREE.BoxBufferGeometry(3, 3, 3);
 const cube = new THREE.Mesh(cubeGeometry, basicMeterial);
-scene.add(cube);
 
 /*
- 创建一个平面
+  添加
 */
-const plane = new THREE.Mesh(
-  new THREE.PlaneBufferGeometry(3, 3),
-  basicMeterial
-);
-plane.position.x = 5;
-scene.add(plane);
+scene.add(cube);
 
 /*
   渲染器
