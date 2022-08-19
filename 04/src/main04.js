@@ -33,7 +33,7 @@ const doorAoTexture = textureLoader.load(
 /*
   生成材质
 */
-const meterial = new THREE.MeshStandardMaterial({
+const basicMeterial = new THREE.MeshBasicMaterial({
   map: texture, // 基础材质
   side: THREE.DoubleSide, //允许正面和方面同时绘制材质
   alphaMap: alphaTexture, // alpha 遮挡材质
@@ -44,8 +44,8 @@ const meterial = new THREE.MeshStandardMaterial({
 /*
   生成矩阵
 */
-const cubeGeometry = new THREE.BoxBufferGeometry(3, 3, 3); // 标准材质
-const cube = new THREE.Mesh(cubeGeometry, meterial);
+const cubeGeometry = new THREE.BoxBufferGeometry(3, 3, 3);
+const cube = new THREE.Mesh(cubeGeometry, basicMeterial);
 scene.add(cube);
 // 给cube添加第二组uv
 cubeGeometry.setAttribute(
@@ -57,7 +57,7 @@ cubeGeometry.setAttribute(
  创建一个平面
 */
 const planeGeometry = new THREE.PlaneBufferGeometry(3, 3);
-const plane = new THREE.Mesh(planeGeometry, meterial);
+const plane = new THREE.Mesh(planeGeometry, basicMeterial);
 plane.position.x = 5;
 scene.add(plane);
 // 给平面添加第二组uv
@@ -65,19 +65,6 @@ planeGeometry.setAttribute(
   "uv2",
   new THREE.BufferAttribute(planeGeometry.attributes.uv.array, 2)
 );
-
-/*
-增加灯光
-*/
-// 环境光
-const light = new THREE.AmbientLight(0xffffff);
-scene.add(light);
-
-//平行光
-const directLight = new THREE.DirectionalLight(0xffffff);
-//平行光的方向
-directLight.position.set(0, 10, 10);
-scene.add(directLight);
 
 /*
   渲染器
